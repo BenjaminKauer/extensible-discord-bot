@@ -1,8 +1,9 @@
 import { Client, Message } from 'discord.js';
-import { AbstractModule, ModuleHub, CoreModule } from './core/module-system';
+import { AbstractModule, CoreModule, ModuleHub } from './core/module-system';
 import { Util } from './core';
 import { DatabaseAdapter } from './core/abstract-database-adapter';
 import { SqlAdapter } from './database-adapters/sqlite.adapter';
+import { MODULES } from './modules';
 
 require('dotenv').config();
 
@@ -47,9 +48,7 @@ class ExtensibleDiscordBot {
 
     private async registerModules(): Promise<void> {
         this.moduleHub = new ModuleHub(this.client, this.db)
-            .addModules<AbstractModule>(
-                CoreModule
-            );
+            .addModules<AbstractModule>(CoreModule, ...MODULES);
     }
 
     private async listenOnClientEvents(): Promise<void> {
