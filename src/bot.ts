@@ -22,8 +22,9 @@ export class ModularDiscordBot {
         this.db = new SqlAdapter();
     }
 
-    public async addModules(modules: Array<Newable<AbstractModule>>): Promise<void> {
-        this.registerModules(modules);
+    public async registerModules(modules: Array<Newable<AbstractModule>>): Promise<void> {
+        this.moduleHub = new ModuleHub(this.client, this.db)
+            .addModules<AbstractModule>(CoreModule, ...modules);
     }
 
     private async init(): Promise<void> {
@@ -46,11 +47,6 @@ export class ModularDiscordBot {
                 'GUILD_MESSAGE_TYPING'
             ]
         });
-    }
-
-    private async registerModules(modules: Array<Newable<AbstractModule>>): Promise<void> {
-        this.moduleHub = new ModuleHub(this.client, this.db)
-            .addModules<AbstractModule>(CoreModule, ...modules);
     }
 
     private async listenOnClientEvents(): Promise<void> {
@@ -86,3 +82,5 @@ export class ModularDiscordBot {
         }
     }
 }
+
+export * from './public-api';
