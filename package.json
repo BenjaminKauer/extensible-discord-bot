@@ -1,13 +1,12 @@
 {
     "name": "modular-discord-bot",
-    "version": "0.1.1",
+    "version": "0.1.3",
     "description": "",
-    "main": "./dist/server.js",
+    "main": "./bot.js",
     "scripts": {
         "start": "node dist/bot.js",
         "dev": "tsc-watch --onSuccess \"node --stack-trace-limit=1000 --async-stack-traces ./dist/bot.js\"",
-        "build": "tsc & copy",
-        "copy": "cp package.json dist/ && cp README.md dist/",
+        "build": "tsc",
         "lint": "npx eslint ."
     },
     "keywords": [],

@@ -1,9 +1,8 @@
 import { Client, Message } from 'discord.js';
-import { AbstractModule, CoreModule, ModuleHub } from './core/module-system';
+import { AbstractModule, CoreModule, ModuleHub, Newable } from './core/module-system';
 import { Util } from './core';
 import { DatabaseAdapter } from './core/abstract-database-adapter';
 import { SqlAdapter } from './database-adapters/sqlite.adapter';
-import { MODULES } from './modules';
 
 require('dotenv').config();
 
@@ -12,7 +11,7 @@ interface ClientOptions {
     url: string;
 }
 
-class ExtensibleDiscordBot {
+export class ModularDiscordBot {
     private client!: Client;
     private moduleHub!: ModuleHub;
     private options!: ClientOptions;
@@ -23,6 +22,10 @@ class ExtensibleDiscordBot {
         this.db = new SqlAdapter();
     }
 
+    public async addModules(modules: Array<Newable<AbstractModule>>): Promise<void> {
+        this.registerModules(modules);
+    }
+
     private async init(): Promise<void> {
 
         this.options = {
@@ -31,7 +34,6 @@ class ExtensibleDiscordBot {
         };
 
         await this.createClient();
-        await this.registerModules();
         await this.listenOnClientEvents();
     }
 
@@ -46,9 +48,9 @@ class ExtensibleDiscordBot {
         });
     }
 
-    private async registerModules(): Promise<void> {
+    private async registerModules(modules: Array<Newable<AbstractModule>>): Promise<void> {
         this.moduleHub = new ModuleHub(this.client, this.db)
-            .addModules<AbstractModule>(CoreModule, ...MODULES);
+            .addModules<AbstractModule>(CoreModule, ...modules);
     }
 
     private async listenOnClientEvents(): Promise<void> {
@@ -84,5 +86,3 @@ class ExtensibleDiscordBot {
         }
     }
 }
-
-new ExtensibleDiscordBot();

@@ -1,6 +1,6 @@
 # modular-discord-bot
 
-![GitHub package.json version](https://img.shields.io/github/package-json/v/BenjaminKauer/modular-discord-bot?style=flat-square) ![GitHub contributors](https://img.shields.io/github/contributors/BenjaminKauer/modular-discord-bot?style=flat-square) ![GitHub last commit](https://img.shields.io/github/last-commit/BenjaminKauer/modular-discord-bot?style=flat-square)
+![GitHub contributors](https://img.shields.io/github/contributors/BenjaminKauer/modular-discord-bot?style=flat-square) ![GitHub last commit](https://img.shields.io/github/last-commit/BenjaminKauer/modular-discord-bot?style=flat-square)
 
 This project is meant to deliver some basic, extensible discord bot (as the name may have suggested).
 
