@@ -1,12 +1,13 @@
 {
-    "name": "extensible-discord-bot",
-    "version": "1.0.0",
+    "name": "modular-discord-bot",
+    "version": "0.1.1",
     "description": "",
     "main": "./dist/server.js",
     "scripts": {
-        "start": "node build/bot.js",
-        "dev": "tsc-watch --onSuccess \"node --stack-trace-limit=1000 --async-stack-traces ./build/bot.js\"",
-        "build": "tsc",
+        "start": "node dist/bot.js",
+        "dev": "tsc-watch --onSuccess \"node --stack-trace-limit=1000 --async-stack-traces ./dist/bot.js\"",
+        "build": "tsc & copy",
+        "copy": "cp package.json dist/ && cp README.md dist/",
         "lint": "npx eslint ."
     },
     "keywords": [],

@@ -1,28 +1,32 @@
 {
     "compilerOptions": {
-        "target": "es6",
-        "module": "commonjs",
+        "target": "es5",
+        "module": "CommonJS",
         "declaration": true,
-        "outDir": "build",
+        "outDir": "./dist",
         "strict": true,
         "lib": [
-            "es2017",
             "dom",
-            "ES2020.String"
+            "es2015"
         ],
         "moduleResolution": "node",
         "sourceMap": true,
+        "strictNullChecks": true,
+        "suppressImplicitAnyIndexErrors": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "forceConsistentCasingInFileNames": true,
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "noUnusedLocals": true,
+        "rootDir": "./src",
         "noUnusedParameters": true,
         "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true
     },
+    "include": [
+        "src/**/*.ts"
+    ],
     "exclude": [
-        "build/**/*.ts",
-        "dist/**/*.ts"
+        "node_modules"
     ]
 }

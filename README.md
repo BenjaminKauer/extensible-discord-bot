@@ -1,6 +1,6 @@
-# extensible-discord-bot
+# modular-discord-bot
 
-![GitHub package.json version](https://img.shields.io/github/package-json/v/BenjaminKauer/extensible-discord-bot?style=flat-square) ![GitHub contributors](https://img.shields.io/github/contributors/BenjaminKauer/extensible-discord-bot?style=flat-square) ![GitHub last commit](https://img.shields.io/github/last-commit/BenjaminKauer/extensible-discord-bot?style=flat-square)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/BenjaminKauer/modular-discord-bot?style=flat-square) ![GitHub contributors](https://img.shields.io/github/contributors/BenjaminKauer/modular-discord-bot?style=flat-square) ![GitHub last commit](https://img.shields.io/github/last-commit/BenjaminKauer/modular-discord-bot?style=flat-square)
 
 This project is meant to deliver some basic, extensible discord bot (as the name may have suggested).
 
@@ -8,7 +8,7 @@ This project is meant to deliver some basic, extensible discord bot (as the name
 
 First of all, you need to register your bot (application) on Discord. You can do that on the [Discord Developer Portal](https://discord.com/developers/applications). I won't provide a tutorial for that process at this point.
 
-I'm developing `extensible-discord-bot` using node version `16.13.0` and TypeScript version `4.4.4`.
+I'm developing `modular-discord-bot` using node version `16.13.0` and TypeScript version `4.4.4`.
 This project uses [discord.js](https://discord.js.org/#/) in version `^13.2.0`.
 
 ## Environment config
@@ -29,7 +29,7 @@ PREFIX=_
 
 # name for the sqlite3 db file
 # Only required if using the SQLite-Adapter
-SQLITE_FILENAME=my-extensible-discord-bot.sqlite3
+SQLITE_FILENAME=my-modular-discord-bot.sqlite3
 
 # url that will be shown in the bot's status (STREAMING <URL>)
 URL=https://example.com
