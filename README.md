@@ -24,7 +24,7 @@ import { ModularDiscordBot } from 'modular-discord-bot';
 
 const bot: ModularDiscordBot = new ModularDiscordBot();
 ```
-  4. Set up your environment (see [Environment Config](#-environment-config))
+  4. Set up your environment (see [Environment Config](#environment-config))
   5. Create a `tsconfig.json` in order to configure the TypeScript compiler, paste the following (example):
   ```json
     {
