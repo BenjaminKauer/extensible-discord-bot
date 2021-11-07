@@ -4,14 +4,68 @@
 
 This project is meant to deliver some basic, extensible discord bot (as the name may have suggested).
 
-## Getting started / Prerequisites
+# Getting started / Prerequisites
 
 First of all, you need to register your bot (application) on Discord. You can do that on the [Discord Developer Portal](https://discord.com/developers/applications). I won't provide a tutorial for that process at this point.
 
 I'm developing `modular-discord-bot` using node version `16.13.0` and TypeScript version `4.4.4`.
 This project uses [discord.js](https://discord.js.org/#/) in version `^13.2.0`.
 
-## Environment config
+# Install and run
+
+In order to create a new, custom bot you can follow these steps:
+
+  1. In the desired directory, run `npm init` to create a new npm module
+  2. Run `npm i modular-discord-bot --save` to install all the dependencies
+  3. In your main `.ts`-file, paste the following:
+
+```typescript
+import { ModularDiscordBot } from 'modular-discord-bot';
+
+const bot: ModularDiscordBot = new ModularDiscordBot();
+```
+  4. Set up your environment (see [Environment Config](#-environment-config))
+  5. Create a `tsconfig.json` in order to configure the TypeScript compiler, paste the following (example):
+  ```json
+    {
+        "compilerOptions": {
+            "target": "es5",
+            "module": "CommonJS",
+            "declaration": true,
+            "outDir": "./dist",
+            "strict": true,
+            "lib": [
+                "dom",
+                "es2015"
+            ],
+            "moduleResolution": "node",
+            "sourceMap": true,
+            "strictNullChecks": true,
+            "suppressImplicitAnyIndexErrors": true,
+            "experimentalDecorators": true,
+            "emitDecoratorMetadata": true,
+            "noImplicitAny": false,
+            "noUnusedLocals": true,
+            "rootDir": "./src",
+            "noUnusedParameters": true,
+            "esModuleInterop": true,
+            "allowSyntheticDefaultImports": true,
+            "resolveJsonModule": true
+        },
+        "include": [
+            "src/**/*.ts"
+        ],
+        "exclude": [
+            "node_modules"
+        ]
+    }
+  ```
+  6. Run `tsc` to build your bot.
+  7. Run `node dist/<your-main-file>.ts`
+  8. Your custom bot should be up and running
+
+
+# Environment config
 
 The bot reads certain environment variables, for example the Discord OAuth token required to connect to the Discord API. You can either set those variables in your system, or just place a file named `.env` in the root directory of this project.
 
@@ -41,9 +95,10 @@ BOT_OWNER_ID=1234567890123456789
 # (if a debug channel has been set)
 DEBUG_CHANNEL_ID=123456789012345678
 ```
+
 ---
 
-## Extending the bot
+# Extending the bot
 
 This bot is meant to be extended by implementing modules.
 
