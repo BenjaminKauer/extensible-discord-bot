@@ -1,4 +1,4 @@
-import { Client, Guild, Message, Role } from 'discord.js';
+import { Client, Guild, Interaction, Message, Role } from 'discord.js';
 import { DatabaseKeys } from '../database.keys';
 import { DatabaseAdapter } from '../abstract-database-adapter';
 import _ from 'lodash';
@@ -89,6 +89,11 @@ export abstract class AbstractModule {
         await this.preHandle(msg, next);
     }
 
+
+    async _handleInteraction(interaction: Interaction, next: NextFunction): Promise<void> {
+        await this.handleInteraction(interaction, next);
+    }
+
     //#endregion
 
     //#region PROTECTED METHODS
@@ -109,6 +114,10 @@ export abstract class AbstractModule {
      * @param nextFunction 
      */
     protected handle(_msg: Message, nextFunction: NextFunction): void {
+        nextFunction();
+    }
+
+    protected handleInteraction(_interaction: Interaction, nextFunction: NextFunction): void {
         nextFunction();
     }
 
@@ -298,6 +307,15 @@ export class ModuleHub {
             this.modules[index]._handle(
                 msg,
                 () => this.handle(msg, ++index)
+            );
+        }
+    }
+
+    handleInteraction(interaction: Interaction, index: number = 0): void {
+        if (this.modules[index]) {
+            this.modules[index]._handleInteraction(
+                interaction,
+                () => this.handleInteraction(interaction, ++index)
             );
         }
     }

@@ -1,4 +1,4 @@
-import { Client, Message } from 'discord.js';
+import { Client, Interaction, Message } from 'discord.js';
 import { AbstractModule, CoreModule, ModuleHub, Newable } from './core/module-system';
 import { Util } from './core';
 import { DatabaseAdapter } from './core/abstract-database-adapter';
@@ -60,6 +60,10 @@ export class ModularDiscordBot {
             if (msg.author.bot) return;
 
             this.moduleHub.handle(msg);
+        });
+
+        this.client.on('interactionCreate', (interaction: Interaction) => {
+            this.moduleHub.handleInteraction(interaction);
         });
 
         await this.client.login(this.options.token);
