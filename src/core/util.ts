@@ -1,6 +1,10 @@
 import { Channel, Client, Guild, MessageEmbed, TextBasedChannels, TextChannel } from 'discord.js';
 
 export interface EmbedInfo {
+    author: {
+        name: string;
+        iconURL: string;
+    },
     img: string,
     thumbnail: string
     url: string
@@ -78,6 +82,10 @@ export class Util {
         }
         else {
             return;
+        }
+
+        if (embed.info?.author) {
+            e.setAuthor(embed.info.author.name, embed.info.author.iconURL);
         }
 
         (channel as TextChannel).send({ content: pingText, embeds: [e] });

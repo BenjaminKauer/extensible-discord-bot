@@ -1,4 +1,4 @@
-import { Client, Guild, Interaction, Message, Role } from 'discord.js';
+import { Client, Guild, Message, MessageReaction, PartialMessageReaction, Role } from 'discord.js';
 import { DatabaseKeys } from '../database.keys';
 import { DatabaseAdapter } from '../abstract-database-adapter';
 import _ from 'lodash';
@@ -90,8 +90,8 @@ export abstract class AbstractModule {
     }
 
 
-    async _handleInteraction(interaction: Interaction, next: NextFunction): Promise<void> {
-        await this.handleInteraction(interaction, next);
+    async _handleReaction(reaction: MessageReaction | PartialMessageReaction, next: NextFunction): Promise<void> {
+        await this.handleReaction(reaction, next);
     }
 
     //#endregion
@@ -117,7 +117,7 @@ export abstract class AbstractModule {
         nextFunction();
     }
 
-    protected handleInteraction(_interaction: Interaction, nextFunction: NextFunction): void {
+    protected handleReaction(_reaction: MessageReaction | PartialMessageReaction, nextFunction: NextFunction): void {
         nextFunction();
     }
 
@@ -311,11 +311,11 @@ export class ModuleHub {
         }
     }
 
-    handleInteraction(interaction: Interaction, index: number = 0): void {
+    handleReaction(reaction: MessageReaction | PartialMessageReaction, index: number = 0): void {
         if (this.modules[index]) {
-            this.modules[index]._handleInteraction(
-                interaction,
-                () => this.handleInteraction(interaction, ++index)
+            this.modules[index]._handleReaction(
+                reaction,
+                () => this.handleReaction(reaction, ++index)
             );
         }
     }

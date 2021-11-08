@@ -1,4 +1,4 @@
-import { Client, Interaction, Message } from 'discord.js';
+import { Client, Message, MessageReaction, PartialMessageReaction } from 'discord.js';
 import { AbstractModule, CoreModule, ModuleHub, Newable } from './core/module-system';
 import { Util } from './core';
 import { DatabaseAdapter } from './core/abstract-database-adapter';
@@ -44,8 +44,10 @@ export class ModularDiscordBot {
                 'GUILDS',
                 'GUILD_MESSAGES',
                 'GUILD_MESSAGE_REACTIONS',
-                'GUILD_MESSAGE_TYPING'
-            ]
+                'GUILD_MESSAGE_TYPING',
+                'GUILD_EMOJIS_AND_STICKERS'
+            ],
+            partials: ['USER', 'REACTION', 'MESSAGE']
         });
     }
 
@@ -62,8 +64,8 @@ export class ModularDiscordBot {
             this.moduleHub.handle(msg);
         });
 
-        this.client.on('interactionCreate', (interaction: Interaction) => {
-            this.moduleHub.handleInteraction(interaction);
+        this.client.on('messageReactionAdd', (reaction: MessageReaction | PartialMessageReaction) => {
+            this.moduleHub.handleReaction(reaction);
         });
 
         await this.client.login(this.options.token);
