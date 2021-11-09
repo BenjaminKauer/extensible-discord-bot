@@ -67,6 +67,9 @@ export class ModularDiscordBot {
         this.client.on('messageReactionAdd', (reaction: MessageReaction | PartialMessageReaction) => {
             this.moduleHub.handleReaction(reaction);
         });
+        this.client.on('messageReactionRemove', (reaction: MessageReaction | PartialMessageReaction) => {
+            this.moduleHub.handleReaction(reaction);
+        });
 
         await this.client.login(this.options.token);
 

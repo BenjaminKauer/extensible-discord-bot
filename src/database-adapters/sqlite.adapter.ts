@@ -12,7 +12,12 @@ export class SqlAdapter extends DatabaseAdapter {
             .then((readValue: T | undefined) => {
                 if (readValue) {
 
-                    this.db.run(`UPDATE main SET value = "${value}" WHERE guildID = "${guildID}" AND key = "${key}"`,
+                    this.db.run(`UPDATE main SET value = $value WHERE guildID = $guildID AND key = $key`,
+                        {
+                            $value: value,
+                            $guildID: guildID,
+                            $key: key
+                        },
                         ((s: RunResult, err: Error | null) => {
                             console.log(s, err);
                         }));

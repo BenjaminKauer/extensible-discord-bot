@@ -1,4 +1,5 @@
-import { Channel, Client, Guild, MessageEmbed, TextBasedChannels, TextChannel } from 'discord.js';
+import { Channel, Client, Guild, Message, MessageEmbed, TextBasedChannels, TextChannel } from 'discord.js';
+import { DiscordID } from '.';
 
 export interface EmbedInfo {
     author: {
@@ -48,7 +49,7 @@ export class Util {
         return true;
     }
 
-    static async sendEmbedMessage(channel: TextBasedChannels | TextChannel | Channel | string | null, msg: string, embed: { info?: EmbedInfo, embed?: MessageEmbed }, client?: Client, pingText?: string): Promise<void> {
+    static async sendEmbedMessage(channel: TextBasedChannels | TextChannel | Channel | string | null, msg: string, embed: { info?: EmbedInfo, embed?: MessageEmbed }, client?: Client, pingText?: string): Promise<DiscordID | undefined> {
 
         if (!channel) {
             return;
@@ -88,7 +89,10 @@ export class Util {
             e.setAuthor(embed.info.author.name, embed.info.author.iconURL);
         }
 
-        (channel as TextChannel).send({ content: pingText, embeds: [e] });
+        const embedMessage: Message<boolean> = await (channel as TextChannel).send({ content: pingText, embeds: [e] });
+        if (embedMessage?.id) {
+            return embedMessage.id;
+        }
         return;
 
     }

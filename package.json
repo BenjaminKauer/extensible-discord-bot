@@ -1,8 +1,12 @@
 {
     "name": "modular-discord-bot",
-    "version": "0.2.3",
+    "version": "0.3.0",
     "description": "",
     "main": "./bot.js",
+    "repository": {
+        "url": "https://github.com/S-K-Lieren/modular-discord-bot",
+        "type": "git"
+    },
     "scripts": {
         "start": "node dist/bot.js",
         "dev": "tsc-watch --onSuccess \"node --stack-trace-limit=1000 --async-stack-traces ./dist/bot.js\"",
