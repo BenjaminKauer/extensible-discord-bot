@@ -21,9 +21,9 @@ In order to create a new, custom bot you can follow these steps:
   3. In your main `.ts`-file, paste the following:
 
 ```typescript
-import { ModularDiscordBot } from 'negan-bot';
+import { NeganBot } from 'negan-bot';
 
-const bot: ModularDiscordBot = new ModularDiscordBot();
+const bot: NeganBot = new NeganBot();
 ```
   4. Set up your environment (see [Environment Config](#environment-config))
   5. Create a `tsconfig.json` in order to configure the TypeScript compiler, paste the following (example):
@@ -99,9 +99,36 @@ DEBUG_CHANNEL_ID=123456789012345678
 
 ---
 
-# Extending the bot
 
-This bot is meant to be extended by implementing modules.
+# Import and use a module
+
+To make use of a module, you need to pass it to `registerModules()`.
+
+See example for [hall of fame module](https://www.npmjs.com/package/negan-module-hall-of-fame):
+
+```typescript
+import { NeganBot } from 'negan-bot';
+import { HallOfFameModule } from 'negan-module-hall-of-fame';
+
+const bot: NeganBot = new NeganBot();
+
+bot.registerModules([
+    HallOfFameModule
+]);
+
+const hofModule: HallOfFameModule | undefined = bot.getModule(HallOfFameModule);
+if (hofModule) {
+    hofModule.setThreshold(2);
+}
+```
+
+---
+
+# Writing own modules
+
+### Example
+
+For an example on how to create a module for negan-bot, have a look at [hall of fame module](https://github.com/S-K-Lieren/negan-modules/tree/master/hall-of-fame).
 
 ### Extend AbstractModule and decorate with @Module()
 
@@ -134,9 +161,11 @@ this.database.read<string>(guildID, 'news-channel')
 
 ```
 
+__The built-in sqlite3-adapter is not meant to be used in production environments.__
+
 ### Initialization
 
-Once the discord client is `ready`, the `ModuleHub` will call each module's `init()`. So that's the right place to do some initialization, for example loading data from the database.
+Once the underlying discord client is `ready`, the `ModuleHub` will call each module's `init()`. So that's the right place to do some initialization, for example loading data from the database.
 
 
 
@@ -163,19 +192,6 @@ private postTime(msg: Message): void {
 
 Results in:
 
-![Screenshot](https://user-images.githubusercontent.com/5950968/140623471-1d6ee341-cc86-4889-b5ab-c016043097c7.png)
+![negan-screen](https://user-images.githubusercontent.com/5950968/142497618-1451d9a0-c306-4cba-942b-389ffe155c19.PNG)
 
 
-### Registering your new module to the ModuleHub
-
-Registering your module to the `ModuleHub` is as easy as adding it to the array which `src/modules.ts` exports:
-
-```typescript
-export const MODULES: Array<Newable<AbstractModule>> = [
-    MyOwnModule
-];
-```
-
-### Example module
-
-In `src/modules/example` you will find an example module.
