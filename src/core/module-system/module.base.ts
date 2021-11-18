@@ -43,6 +43,7 @@ export function Module(metaData: ModuleMetaData) {
         return class extends constr {
             constructor(...args: any[]) {
                 super(...args);
+                constr.prototype.metaData = metaData;
                 (this as unknown as AbstractModule).metaData = metaData;
             }
         }

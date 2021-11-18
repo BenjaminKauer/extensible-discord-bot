@@ -11,7 +11,7 @@ interface ClientOptions {
     url: string;
 }
 
-export class ModularDiscordBot {
+export class NeganBot {
     private client!: Client;
     private moduleHub!: ModuleHub;
     private options!: ClientOptions;
@@ -20,11 +20,18 @@ export class ModularDiscordBot {
     constructor() {
         this.init();
         this.db = new SqlAdapter();
+
+        this.moduleHub = new ModuleHub(this.client, this.db);
     }
 
     public async registerModules(modules: Array<Newable<AbstractModule>>): Promise<void> {
-        this.moduleHub = new ModuleHub(this.client, this.db)
+        this.moduleHub
             .addModules<AbstractModule>(CoreModule, ...modules);
+    }
+
+    public getModule<T extends AbstractModule>(module: typeof AbstractModule): T | undefined {
+        return this.moduleHub.getModules()
+            .find((m: AbstractModule) => m.metaData.name === module.prototype.metaData.name) as T | undefined;
     }
 
     private async init(): Promise<void> {
@@ -91,5 +98,6 @@ export class ModularDiscordBot {
         }
     }
 }
+
 
 export * from './public-api';

@@ -1,7 +1,7 @@
-# modular-discord-bot
+# negan-bot
 
-![version on npm](https://img.shields.io/npm/v/modular-discord-bot?style=flat-square) ![npm total downloads](https://img.shields.io/npm/dt/modular-discord-bot?style=flat-square)
-![GitHub contributors](https://img.shields.io/github/contributors/BenjaminKauer/modular-discord-bot?style=flat-square) ![GitHub last commit](https://img.shields.io/github/last-commit/BenjaminKauer/modular-discord-bot?style=flat-square)
+![version on npm](https://img.shields.io/npm/v/negan-bot?style=flat-square) ![npm total downloads](https://img.shields.io/npm/dt/negan-bot?style=flat-square)
+![GitHub contributors](https://img.shields.io/github/contributors/BenjaminKauer/negan-bot?style=flat-square) ![GitHub last commit](https://img.shields.io/github/last-commit/BenjaminKauer/negan-bot?style=flat-square)
 
 This project is meant to deliver some basic, extensible discord bot (as the name may have suggested).
 
@@ -9,7 +9,7 @@ This project is meant to deliver some basic, extensible discord bot (as the name
 
 First of all, you need to register your bot (application) on Discord. You can do that on the [Discord Developer Portal](https://discord.com/developers/applications). I won't provide a tutorial for that process at this point.
 
-I'm developing `modular-discord-bot` using node version `16.13.0` and TypeScript version `4.4.4`.
+I'm developing `negan-bot` using node version `16.13.0` and TypeScript version `4.4.4`.
 This project uses [discord.js](https://discord.js.org/#/) in version `^13.2.0`.
 
 # Install and run
@@ -17,11 +17,11 @@ This project uses [discord.js](https://discord.js.org/#/) in version `^13.2.0`.
 In order to create a new, custom bot you can follow these steps:
 
   1. In the desired directory, run `npm init` to create a new npm module
-  2. Run `npm i modular-discord-bot --save` to install all the dependencies
+  2. Run `npm i negan-bot --save` to install all the dependencies
   3. In your main `.ts`-file, paste the following:
 
 ```typescript
-import { ModularDiscordBot } from 'modular-discord-bot';
+import { ModularDiscordBot } from 'negan-bot';
 
 const bot: ModularDiscordBot = new ModularDiscordBot();
 ```
@@ -84,7 +84,7 @@ PREFIX=_
 
 # name for the sqlite3 db file
 # Only required if using the SQLite-Adapter
-SQLITE_FILENAME=my-modular-discord-bot.sqlite3
+SQLITE_FILENAME=my-negan-bot.sqlite3
 
 # url that will be shown in the bot's status (STREAMING <URL>)
 URL=https://example.com

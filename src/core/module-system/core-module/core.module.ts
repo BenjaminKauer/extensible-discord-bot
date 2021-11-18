@@ -2,7 +2,7 @@ import { Collection, Message, OAuth2Guild } from 'discord.js';
 import { DatabaseKeys } from '../../database.keys';
 import { AbstractModule, Commands, Module } from '..';
 import _ from 'lodash';
-import { Util } from '../..';
+import { GuildID, Util } from '../..';
 
 @Module({
     name: 'core',
@@ -32,11 +32,11 @@ export class CoreModule extends AbstractModule {
             },
             'enable-module': {
                 onlyMods: true,
-                handler: (msg: Message) => this.enableModule(msg)
+                handler: (msg: Message) => this._enableModule(msg)
             },
             'disable-module': {
                 onlyMods: true,
-                handler: (msg: Message) => this.disableModule(msg)
+                handler: (msg: Message) => this._disableModule(msg)
             },
             'server-count': {
                 onlyMods: true,
@@ -51,55 +51,73 @@ export class CoreModule extends AbstractModule {
         };
     }
 
-    private async enableModule(msg: Message): Promise<void> {
-        if (!msg.guildId) return;
-
-        const moduleName: string = msg.content.split(" ")[1];
-
+    public async enableModule(moduleName: string, guildID: GuildID): Promise<string | undefined> {
         const module: AbstractModule | undefined = this.moduleHub.getModules()
             .find((module: AbstractModule) => module.metaData.name == moduleName);
 
         if (!module) {
-            msg.reply('Modul nicht gefunden.');
-            return;
+            return 'Modul nicht gefunden.';
         }
 
-        const disabledModules: Array<string> = await this.moduleHub.getDisabledModules(msg.guildId, true);
+        const disabledModules: Array<string> = await this.moduleHub.getDisabledModules(guildID, true);
 
         if (!_.includes(disabledModules, moduleName)) {
-            msg.reply(`${moduleName} ist bereits aktiviert.`);
+            return `${moduleName} ist bereits aktiviert.`;
+        }
+
+        this.moduleHub.enableModule(guildID, moduleName);
+    }
+
+
+    private async _enableModule(msg: Message): Promise<void> {
+        if (!msg.guildId) return;
+
+        const moduleName: string = msg.content.split(" ")[1];
+
+        const result: string | undefined = await this.enableModule(moduleName, msg.guildId);
+
+        if (result) {
+            msg.reply(result);
+
             return;
         }
 
-        this.moduleHub.enableModule(msg.guildId, moduleName);
         msg.reply(`${moduleName} wurde aktiviert.`);
     }
 
-    private async disableModule(msg: Message): Promise<void> {
-        if (!msg.guildId) return;
-
-        const moduleName: string = msg.content.split(" ")[1];
-
+    public async disableModule(moduleName: string, guildID: GuildID): Promise<string | undefined> {
         const module: AbstractModule | undefined = this.moduleHub.getModules()
             .find((module: AbstractModule) => module.metaData.name == moduleName);
 
         if (!module) {
-            msg.reply('Modul nicht gefunden.');
-            return;
+            return 'Modul nicht gefunden.';
         }
 
         if (module.metaData.alwaysActivated) {
-            msg.reply(`${Util.wrapInBackTicks(moduleName)} kann nicht deaktiviert werden.`);
-            return;
+            return `${Util.wrapInBackTicks(moduleName)} kann nicht deaktiviert werden.`;
         }
 
-        const disabledModules: Array<string> = await this._getDisabledModules(msg.guildId);
+        const disabledModules: Array<string> = await this._getDisabledModules(guildID);
 
         if (_.includes(disabledModules, moduleName)) {
-            msg.reply(`${Util.wrapInBackTicks(moduleName)} ist bereits deaktiviert.`);
+            return `${Util.wrapInBackTicks(moduleName)} ist bereits deaktiviert.`;
+        }
+        this.moduleHub.disableModule(guildID, moduleName);
+    }
+
+    private async _disableModule(msg: Message): Promise<void> {
+        if (!msg.guildId) return;
+
+        const moduleName: string = msg.content.split(" ")[1];
+
+        const result: string | undefined = await this.disableModule(moduleName, msg.guildId);
+
+        if (result) {
+            msg.reply(result);
+
             return;
         }
-        this.moduleHub.disableModule(msg.guildId, moduleName);
+
         msg.reply(`Okay, ${Util.wrapInBackTicks(moduleName)} ist nun deaktiviert.`);
     }
 
