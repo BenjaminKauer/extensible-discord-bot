@@ -98,7 +98,7 @@ export class Util {
     }
 
     static wrapInBackTicks(text: string): string {
-        return `\`\`\`${text}\`\`\``;
+        return (text?.length) ? `\`\`\`${text}\`\`\`` : '';
     }
 
     static async getChannelByID(client: Client, channelID: string): Promise<Channel | null> {

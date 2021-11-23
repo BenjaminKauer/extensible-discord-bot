@@ -29,8 +29,16 @@ export interface Commands {
  * properties used to describe modules
  */
 export interface ModuleMetaData {
+    /**
+     * The module's name
+     */
     name: string;
-    alwaysActivated: boolean;
+    /**
+     * Whether or not the module is always activated
+     * (cannot be disabled)
+     */
+    alwaysActivated?: boolean;
+    commandPrefix?: string;
 }
 
 /**
@@ -78,7 +86,18 @@ export abstract class AbstractModule {
 
     async _init(): Promise<void> {
         await this.init();
-        this.commands = this.registerCommands();
+        let moduleCommands: Commands | undefined = this.registerCommands();
+        if (moduleCommands) {
+            // Add module's command-prefix (if any)
+            // If no prefix has been set, use the whole module's name
+            const prefix: string = this.metaData.commandPrefix ?? this.metaData.name;
+
+            moduleCommands = _.mapKeys(moduleCommands, (_value, key) => {
+                return `${prefix}:${key}`;
+            });
+
+            this.commands = moduleCommands;
+        }
     }
 
     /**

@@ -135,6 +135,11 @@ export class CoreModule extends AbstractModule {
 
         const enabledModules: Array<string> = _.difference(allModules, disabledModules);
 
+        if (enabledModules.length) {
+            msg.reply('Zurzeit sind keine Module aktiviert');
+            return;
+        }
+
         msg.reply(`Aktivierte Module: ${Util.wrapInBackTicks(enabledModules.join(', '))}`);
     }
 

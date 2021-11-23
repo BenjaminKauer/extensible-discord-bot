@@ -99,5 +99,7 @@ export class NeganBot {
     }
 }
 
+const bot: NeganBot = new NeganBot();
+bot.registerModules([]);
 
 export * from './public-api';
