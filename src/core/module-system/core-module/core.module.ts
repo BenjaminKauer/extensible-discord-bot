@@ -162,7 +162,11 @@ export class CoreModule extends AbstractModule {
     private _getAllModules(): Array<string> {
         const allModules: Array<string> = this.moduleHub.getModules()
             .filter((module: AbstractModule) => module.metaData.name !== this.metaData.name)
-            .map((module: AbstractModule) => module.metaData.name);
+            .map((module: AbstractModule) =>
+                module.metaData.commandPrefix
+                    ? `${module.metaData.name} (${module.metaData.commandPrefix})`
+                    : module.metaData.name
+            );
 
         return allModules;
     }
