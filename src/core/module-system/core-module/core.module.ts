@@ -4,6 +4,7 @@ import { AbstractModule, Commands, Module } from '..';
 import _ from 'lodash';
 import { GuildID, Util } from '../..';
 
+require('dotenv').config();
 @Module({
     name: 'core',
     alwaysActivated: true
@@ -47,6 +48,10 @@ export class CoreModule extends AbstractModule {
             },
             'now': {
                 handler: (msg: Message) => this.now(msg)
+            },
+            'version': {
+                onlyMods: true,
+                handler: (msg: Message) => this.printVersion(msg)
             }
         };
     }
@@ -210,5 +215,12 @@ export class CoreModule extends AbstractModule {
 
     private now(msg: Message): void {
         (msg as any).reply({ content: `<t:${Math.floor(Date.now() / 1000)}:T>` });
+    }
+
+    private printVersion(msg: Message): void {
+        const currentVersion: string = process.env.npm_package_version ?? '';
+        const packageName: string = process.env.npm_package_name ?? '';
+
+        msg.reply(Util.wrapInBackTicks(`${packageName}@${currentVersion}`));
     }
 }
